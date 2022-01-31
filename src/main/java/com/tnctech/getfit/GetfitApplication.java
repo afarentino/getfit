@@ -39,7 +39,7 @@ public class GetfitApplication {
 			}
 			if (!isValid) {
 				logger.error("Specify a text file to read using inFile= argument");
-				throw new IllegalStateException("inFIle not provided");
+				throw new IllegalStateException("inFile not provided");
 			}
 		};
 	}
