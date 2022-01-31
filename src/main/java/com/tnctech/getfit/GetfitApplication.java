@@ -20,6 +20,7 @@ import java.util.Arrays;
  */
 @SpringBootApplication
 public class GetfitApplication {
+	private static final Logger logger = LoggerFactory.getLogger(GetfitApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(GetfitApplication.class, args);
@@ -28,11 +29,17 @@ public class GetfitApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			System.out.println("Let's inspect the beans provided by Spring Boot:");
-			String[] beanNames = ctx.getBeanDefinitionNames();
-			Arrays.sort(beanNames);
-			for (String beanName: beanNames) {
-				System.out.println(beanName);
+			boolean isValid = false;
+			// Print the Arguments passed to the console.
+			for (String arg:  args) {
+				logger.info("Command line argument is " + arg);
+				if (arg.startsWith("--inFile")) {
+					isValid = true;
+				}
+			}
+			if (!isValid) {
+				logger.error("Specify a text file to read using inFile= argument");
+				throw new IllegalStateException("inFIle not provided");
 			}
 		};
 	}
