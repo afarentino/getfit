@@ -45,7 +45,7 @@ public class GetfitApplication implements ApplicationRunner {
 		this.fileService = new TextFileService(fileName);
 		// Do we need all or can we just grab nextRecord and from there do a dump?
 		fileService.getNextRecord();
-		// Append to CSV file
+		// Append to CSV file or future desired output type
 
 		logger.info("Custom Application Runner complete");
 	}
