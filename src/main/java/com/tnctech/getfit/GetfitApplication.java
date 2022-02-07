@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.boot.ApplicationRunner;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -43,11 +44,13 @@ public class GetfitApplication implements ApplicationRunner {
 		String fileName = getFileName(args);
         // Construct our TextFileService
 		this.fileService = new TextFileService(fileName);
-		// Do we need all or can we just grab nextRecord and from there do a dump?
-		fileService.getNextRecord();
-		// Append to CSV file or future desired output type
-
-		logger.info("Custom Application Runner complete");
+		// Convert to a CSV file
+		File csv = fileService.convertToCSV();
+		if (csv != null) {
+			logger.info("CSV generated is " + csv.getAbsolutePath() + File.separator + csv.getName());
+		} else {
+			logger.error("Failed to generated CSV");
+		}
 	}
 
 	// Runs last

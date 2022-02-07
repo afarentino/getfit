@@ -1,10 +1,11 @@
 package com.tnctech.getfit.core;
 
-abstract class Component {
+public abstract class Component {
     abstract void parse(String x) throws ParseException;
-    // TODO: Override me
+    // Probably not needed if toString will be used but here just in case...
     String getValue() {
-        return "";
-    };
+        return this.toString();
+    }
+
     //abstract String getType();
 }
