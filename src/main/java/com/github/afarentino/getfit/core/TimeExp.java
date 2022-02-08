@@ -1,4 +1,4 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 import java.util.StringTokenizer;
 
 public class TimeExp extends Component {

@@ -1,4 +1,4 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
 public class NoteExp extends Component {
     private String note = "";

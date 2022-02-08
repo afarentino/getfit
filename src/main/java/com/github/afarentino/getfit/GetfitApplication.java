@@ -1,4 +1,4 @@
-package com.tnctech.getfit;
+package com.github.afarentino.getfit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

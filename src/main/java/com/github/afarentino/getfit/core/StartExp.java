@@ -1,4 +1,4 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
 import java.util.Date;
 import java.text.DateFormat;

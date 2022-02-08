@@ -1,6 +1,4 @@
-package com.tnctech.getfit.core;
-
-import java.util.Date;
+package com.github.afarentino.getfit.core;
 
 /**
  * When we create a record, the compiler creates bytecode and includes the
@@ -28,7 +26,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                               Component note) {
 
     /**
-     * Private constructor using Effective Java Builder pattern
+     * Private constructor that uses the Effective Java Builder pattern
      * @see: https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java
      * @param builder
      */

@@ -1,4 +1,4 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
 /**
  * Custom Exception class to wrap lower-level exceptions

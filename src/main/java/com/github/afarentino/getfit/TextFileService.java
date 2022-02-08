@@ -1,7 +1,6 @@
-package com.tnctech.getfit;
+package com.github.afarentino.getfit;
 
-import com.tnctech.getfit.core.RecordFactory;
-import com.tnctech.getfit.core.Component;
+import com.github.afarentino.getfit.core.RecordFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +9,6 @@ import java.nio.file.Path;
 
 import java.util.stream.Stream;
 import java.util.List;
-import java.util.Collection;
-import java.util.ArrayList;
 
 /**
  * Using Java NIO and Java 8 Streams, lazily read a text file and parse lines into

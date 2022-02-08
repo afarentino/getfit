@@ -1,4 +1,4 @@
-package com.tnctech.getfit;
+package com.github.afarentino.getfit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

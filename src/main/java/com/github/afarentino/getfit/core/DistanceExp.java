@@ -1,4 +1,4 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
 public class DistanceExp extends Component {
     private Float distance; // in miles

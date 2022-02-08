@@ -1,8 +1,6 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -33,9 +31,7 @@ public final class RecordFactory {
                 if (!parts.isEmpty()) {
                     RecordFactory factory = new RecordFactory(parts);
                     System.out.println("Generating a new Exercise record...");
-
                     ExerciseRecord r = factory.create();
-
                     records.add(r);
                     parts.clear();  // Empty the list -- time to process the next Record!
                 }

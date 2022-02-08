@@ -1,11 +1,8 @@
-package com.tnctech.getfit.core;
+package com.github.afarentino.getfit.core;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
