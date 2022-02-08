@@ -18,27 +18,11 @@ public class StartExp extends Component {
         return start.toString();
     }
 
-    /*
-     * Helper method that scans the given string for the index of the first digit
-     * @return the index or -1 if one is not found
-     */
-    private int firstDigit(String text) {
-        int index = -1;
-        char[] ch = text.toCharArray();
-
-        for (int i=0; i < text.length(); i++) {
-            if (Character.isDigit(ch[i])) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
     void parse(String text) throws ParseException {
         int startIndex = firstDigit(text);
 
         if (startIndex == -1) {
-            throw new ParseException("Unparseable StartExp: \"" + text + "\" does not contain a digit");
+            throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
 
         String start = text.substring(startIndex);

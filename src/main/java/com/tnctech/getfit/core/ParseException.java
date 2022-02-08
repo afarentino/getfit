@@ -1,7 +1,7 @@
 package com.tnctech.getfit.core;
 
 /**
- *
+ * Custom Exception class to wrap lower-level exceptions
  */
 public class ParseException extends Exception {
 

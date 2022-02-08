@@ -1,11 +1,72 @@
 package com.tnctech.getfit.core;
 
 public abstract class Component {
+
+    /**
+     * Returns the first colon present in a String of text
+     * @param text
+     * @return the index of the first colon or -1
+     */
+    public static int firstColon(String text) {
+        int index = -1;
+        char[] ch = text.toCharArray();
+
+        for (int i=0; i < text.length(); i++) {
+            if (ch[i] == ':') {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    public static int lastDigit(String text) {
+        int index = -1;
+        char[] ch = text.toCharArray();
+
+        for(int i=0; i < text.length(); i++) {
+            if (!Character.isDigit(ch[i])) {
+                index++;
+                break;
+            }
+            index = i;
+        }
+        return index;
+    }
+
+    /**
+     * Helper method that scans the given string for the index of the first digit
+     * @return the index or -1 if one is not found
+     */
+    public static int firstDigit(String text) {
+        int index = -1;
+        char[] ch = text.toCharArray();
+
+        for (int i=0; i < text.length(); i++) {
+            if (Character.isDigit(ch[i])) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Attempt to parse the provided string into a component
+     * @param x - the string to parse (usually a full line of text)
+     * @throws ParseException if String cannot be Parsed
+     */
     abstract void parse(String x) throws ParseException;
-    // Probably not needed if toString will be used but here just in case...
+
+    /**
+     * Return a String representation of this component
+     * Children should Override this if they want to return
+     * a value other than toString()
+     *
+     * TODO: See if we can return Object here instead of String
+     */
     String getValue() {
         return this.toString();
     }
 
-    //abstract String getType();
 }

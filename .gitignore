@@ -38,7 +38,7 @@ out/
 
 **/.DS_Store
 
-### Sample real client data file ###
-Pranav_Eliptical_data*
-
+### Sample client data files ###
+*_Eliptical_data*
+*.csv
 Language_Oriented_Programming.pdf

@@ -1,7 +1,13 @@
 package com.tnctech.getfit.core;
 
 public class NoteExp extends Component {
+    private String note = "";
+
+
+    @Override
+    public String toString() { return note.toString(); }
+
     public void parse(String text) throws ParseException {
-        throw new RuntimeException("Implement me");
+        this.note = this.note + text;   // allows us to parse multi-line notes as one record
     }
 }
