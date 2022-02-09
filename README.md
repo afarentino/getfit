@@ -20,11 +20,10 @@ As part of their terms of service, many of today's wearable and
 smartphone based fitness trackers require users to upload metrics 
 to third-party cloud services for analysis.
 
-However, some users have privacy concerns over
-the sharing this data. Reference: [USA today article](https://www.usatoday.com/story/sports/2019/08/16/what-info-do-fitness-apps-keep-share/1940916001/)
+However, some users have privacy concerns with publicly sharing this data. Reference: [USA today article](https://www.usatoday.com/story/sports/2019/08/16/what-info-do-fitness-apps-keep-share/1940916001/)
 
-The GetFit sample application reads as input a local
-text file containing user log entries of this data and 
+The GetFit Sample Spring Native application reads as input a local
+text file containing user log entries exercise details data and 
 converts it into a CSV file. 
 
 ### Sample Text File Format
