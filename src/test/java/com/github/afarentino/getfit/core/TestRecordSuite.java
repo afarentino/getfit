@@ -68,13 +68,30 @@ public class TestRecordSuite {
 
     @Test
     void parseInZone() throws ParseException {
-        String time = "15:24 in zone";
+        String zone = "15:24 in zone";
 
         InZoneExp expected = new InZoneExp();
-        expected.parse(time);
+        expected.parse(zone);
 
         InZoneExp actual = new InZoneExp();
         actual.parse(testData[5]);
+
+        String exp = expected.getValue();
+        String act = actual.getValue();
+
+        assertTrue(act.startsWith(exp));
+
+    }
+
+    @Test
+    void parseTimer() throws ParseException {
+        String timer = "20 min at 1:45 pm";
+
+        TimerExp expected = new TimerExp();
+        expected.parse(timer);
+
+        TimerExp actual = new TimerExp();
+        actual.parse(testData[4]);
 
         String exp = expected.getValue();
         String act = actual.getValue();

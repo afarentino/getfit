@@ -1,9 +1,6 @@
 package com.github.afarentino.getfit.core;
 
-import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,7 +103,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
         }
 
         public Builder totalTime(String text) throws ParseException {
-            TimeExp totalTime = (this.totalTime == null) ? new TimeExp() : (TimeExp)this.totalTime;
+            TimerExp totalTime = (this.totalTime == null) ? new TimerExp() : (TimerExp)this.totalTime;
             totalTime.parse(text);
             this.totalTime = totalTime;
             colMap.put(totalTime.getType(), this.totalTime);

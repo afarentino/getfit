@@ -1,7 +1,7 @@
 package com.github.afarentino.getfit.core;
 import java.util.StringTokenizer;
 
-public class TimeExp extends Component {
+public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
 
@@ -34,9 +34,13 @@ public class TimeExp extends Component {
         if (startIndex == -1) {
             throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
+        if (text.contains("min")) {
+            text = text.substring(startIndex, text.indexOf("min")-1);
+        }
         int colonIndex = firstColon(text);
         if (colonIndex == -1) {
             setSeconds("0");
+            setMinutes(text);
         } else {
             try {
                 StringTokenizer st = new StringTokenizer(text.substring(startIndex), ":");
@@ -48,7 +52,7 @@ public class TimeExp extends Component {
                     break;
                 }
             } catch (NumberFormatException e) {
-                throw new ParseException("Invalid TimeExp " + text, e);
+                throw new ParseException("Invalid TimerExp " + text, e);
             }
         }
     }

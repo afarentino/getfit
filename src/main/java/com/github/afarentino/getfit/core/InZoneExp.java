@@ -1,7 +1,7 @@
 package com.github.afarentino.getfit.core;
 
 public class InZoneExp extends Component {
-    private TimeExp delegate = new TimeExp();
+    private TimerExp delegate = new TimerExp();
 
     @Override
     public Type getType() { return Type.INZONE; }
