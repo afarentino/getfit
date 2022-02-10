@@ -105,7 +105,8 @@ public class TestRecordSuite {
     void parseNote() throws ParseException {
         String note = testData[6];
         String noteExtended = testData[7];
-
+        String combined = note + ' ' + noteExtended;
+        combined = combined.trim();
         NoteExp actual = new NoteExp();
         actual.parse(note);
         String act = actual.getValue();
@@ -113,7 +114,7 @@ public class TestRecordSuite {
 
         actual.parse(noteExtended);
         act = actual.getValue();
-        assertTrue(act.startsWith(note + noteExtended));
+        assertTrue(act.startsWith(combined));
     }
 
     /*

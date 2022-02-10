@@ -143,26 +143,79 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             return this;
         }
 
-        private void setMaxAndAvg() {
+        private void setMaxAndAvg(HeartRateExp next) {
             HeartRateExp curMax = (HeartRateExp)max;
             HeartRateExp curAvg = (HeartRateExp)avg;
-            curMax.isMax(curAvg);
+
+            if (curMax == null && curAvg == null) {
+                next.setMax(true);
+                this.max = next;
+                this.avg = null;
+            }
+            else if (curMax != null && curAvg == null) {
+                if (!curMax.isHigher(next)) {
+                    curMax.setMax(false);
+                    next.setMax(true);
+                    this.max = next;
+                    curMax.setAvg(true);
+                    this.avg = curMax;
+                } else {
+                    next.setAvg(true);
+                    this.avg = next;
+                }
+            }
+            else if (curMax == null && curAvg != null) {
+                if (!curAvg.isHigher(next)) {
+                    next.setMax(true);
+                    this.max = next;
+                    curAvg.setAvg(true);
+                    this.avg = curAvg;
+                } else {
+                    curAvg.setMax(true);
+                    this.max = curAvg;
+                    next.setAvg(true);
+                    this.avg = next;
+                }
+            } else {
+                // Got three values to check
+                if( curMax.isHigher(next)) {
+                    if (!curAvg.isHigher(next)) {
+                        curAvg.setAvg(false);
+                        next.setAvg(true);
+                        this.avg = next;
+                    }
+                } else {
+                    curMax.setMax(false);
+                    next.setMax(true);
+                    this.max = next;
+                    curMax.setAvg(true);
+                    curAvg.setAvg(false);
+                    this.avg = curMax;
+                }
+            }
+
+            if (colMap.containsKey(Component.Type.AVGHEART))
+                colMap.replace(Component.Type.AVGHEART, this.avg);
+            else
+                colMap.put(Component.Type.AVGHEART, this.avg);
+
+            if (colMap.containsKey(Component.Type.MAXHEART))
+                colMap.replace(Component.Type.MAXHEART, this.max);
+            else
+                colMap.put(Component.Type.MAXHEART, this.max);
         }
 
         public Builder avg(String text) throws ParseException {
-            HeartRateExp avg = (this.avg == null) ? new HeartRateExp() : (HeartRateExp)this.avg;
+            HeartRateExp avg = new HeartRateExp();
             avg.parse(text);
-            this.avg = avg;
-            colMap.put(avg.getType(), this.avg);
+            setMaxAndAvg(avg);
             return this;
         }
 
         public Builder max(String text) throws ParseException {
-            HeartRateExp max = (this.max == null) ? new HeartRateExp() : (HeartRateExp)this.max;
+            HeartRateExp max = new HeartRateExp();
             max.parse(text);
-            //TODO this is not going to work
-            this.max = max;
-            colMap.put(max.getType(), this.max);
+            setMaxAndAvg(max);
             return this;
         }
 
