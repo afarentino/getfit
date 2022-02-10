@@ -2,6 +2,7 @@ package com.github.afarentino.getfit.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * When we create a record, the compiler creates bytecode and includes the
@@ -55,6 +56,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
         private Component note; //optional can be null
 
         private Map<Component.Type, Component> colMap;
+        private Stack<Component.Type> parseStack;
 
         // Records always start with a StartExp -- it's the only required parameter
         // you can't build a record with the header being null
@@ -68,8 +70,39 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             this.note = null;
 
             this.colMap = new HashMap<>();
+            this.parseStack = new Stack<>();
+            initParseStack();
         }
 
+        private void initParseStack() {
+            if (!parseStack.isEmpty()) {
+                parseStack.empty();
+            }
+            // Initialize the stack on creation
+            //  enum Type {
+            //        START,
+            //        DISTANCE,
+            //        NOTE,
+            //        TOTALTIME,
+            //        AVGHEART,
+            //        MAXHEART,
+            //        INZONE
+            //    }
+            if (note == null)
+                this.parseStack.push(Component.Type.NOTE);
+            if (max == null)
+                this.parseStack.push(Component.Type.MAXHEART);
+            if (avg == null)
+                this.parseStack.push(Component.Type.AVGHEART);
+            if (totalTime == null)
+                this.parseStack.push(Component.Type.TOTALTIME);
+            if (zoneTime == null)
+                this.parseStack.push(Component.Type.INZONE);
+            if (distance == null)
+                this.parseStack.push(Component.Type.DISTANCE);
+            if (start == null)
+                this.parseStack.push(Component.Type.START);
+        }
         public boolean containsType(Component.Type t) {
            if (colMap.containsKey(t)) {
                return true;
@@ -141,46 +174,45 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             return this;
         }
 
-        public Builder buildNext(String text) throws ParseException {
+        public int retriesLeft() {
+            initParseStack();
+            return parseStack.size();
+        }
 
-            try {
-                if (start == null) {
-                    return start(text);
-                }
-            } catch (ParseException a) {
-                try {
-                    if (distance == null) {
-                        return distance(text);
-                    }
-                } catch (ParseException b) {
-                    try {
-                        if (zoneTime == null) {
-                            return zoneTime(text);
-                        }
-                    } catch (ParseException c) {
-                        try {
-                            if (totalTime == null) {
-                                return totalTime(text);
-                            }
-                        } catch (ParseException d) {
-                            try {
-                                if (avg == null) {
-                                    return avg(text);
-                                }
-                            } catch (ParseException e) {
-                                try {
-                                    if (max == null) {
-                                        return max(text);
-                                    }
-                                } catch (ParseException f) {
-                                    System.out.println("Setting Note as Expression type");
-                                }
-                            }
-                        }
-                    }
-                }
+        public Builder buildNext(String text) throws ParseException {
+            // Select the next Component type to try and build
+            Component.Type t = parseStack.isEmpty() ? Component.Type.NOTE : parseStack.pop();
+
+            switch (t) {
+                case START:
+                    if (start == null)
+                        start(text);
+                    break;
+                case DISTANCE:
+                    if (distance == null)
+                        distance(text);
+                    break;
+                case INZONE:
+                    if (zoneTime == null)
+                        zoneTime(text);
+                    break;
+                case TOTALTIME:
+                    if (totalTime == null)
+                        totalTime(text);
+                    break;
+                case AVGHEART:
+                    if (avg == null)
+                        avg(text);
+                    break;
+                case MAXHEART:
+                    if (max == null)
+                        max(text);
+                    break;
+                case NOTE:
+                    note(text);
+                    break;
             }
-            return note(text);
+            return this;
         }
 
         public ExerciseRecord build() {

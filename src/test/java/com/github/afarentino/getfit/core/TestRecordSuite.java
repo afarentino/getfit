@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,8 +123,10 @@ public class TestRecordSuite {
     @Test
     void buildRecord() throws ParseException {
         try (Stream<String> lines = Arrays.stream(testData)) {
-            RecordFactory.processLines(lines);
-            assertEquals(1, 2);
+            List<Record> list = RecordFactory.processLines(lines);
+            assertEquals(1, list.size() );
+            ExerciseRecord r = (ExerciseRecord) list.get(0);
+            System.out.println(r.toString());
         }
     }
 

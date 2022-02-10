@@ -67,11 +67,20 @@ public final class RecordFactory {
         // Step 1: Create List of Parts
         while (partsIterator.hasNext()) {
             String text = partsIterator.next();
-            try {
-                b.buildNext(text);
-            } catch (ParseException e) {
-                System.out.println("Failed to build part " + text);
-            }
+            int retriesLeft = b.retriesLeft();
+            do {
+                try {
+                    b.buildNext(text);
+                    break;  // if we get to this line we parsed the current part successfully.
+                } catch (ParseException e) {
+                    if (retriesLeft == 0) {
+                        System.out.println("Failed to parse line: " + text);
+                    }
+                }
+                finally {
+                    retriesLeft--;
+                }
+            } while (retriesLeft > 0);
         }
         // Build what we have and move on...
         return b.build();

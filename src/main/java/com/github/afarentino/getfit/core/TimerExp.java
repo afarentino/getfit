@@ -31,14 +31,19 @@ public class TimerExp extends Component {
 
     void parse(String text) throws ParseException {
         int startIndex = firstDigit(text);
+        boolean hasMin = false;
         if (startIndex == -1) {
             throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
         if (text.contains("min")) {
             text = text.substring(startIndex, text.indexOf("min")-1);
+            hasMin = true;
         }
         int colonIndex = firstColon(text);
         if (colonIndex == -1) {
+            if ((hasMin == false) && !text.contains("sec") && !text.contains("am") && !text.contains("pm")) {
+                throw new ParseException("Invalid TimeExp: " + text);
+            }
             setSeconds("0");
             setMinutes(text);
         } else {
