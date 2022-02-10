@@ -41,11 +41,7 @@ record entries that cannot be parsed.
 The output CSV file will be generated to the same directory
 that the input file exists.  
 
-It conforms to the following
-7 CSV Format standardization rules found in [RFC-4180](https://datatracker.ietf.org/doc/html/rfc4180#section-2)
-
-One oin the RFC4180.
-
+It conforms to the CSV Format standardization rules found in [RFC-4180](https://datatracker.ietf.org/doc/html/rfc4180#section-2)
 
 ### Building
 Download the source code of this project and follow the
