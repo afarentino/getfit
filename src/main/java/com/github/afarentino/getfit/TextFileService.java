@@ -32,21 +32,30 @@ public class TextFileService {
         this.fileName = fileName;
     }
 
+    // Escape special characters problematic for CSV files
+    private String esc(String data) {
+        String escapedData = data;
+        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+            data = data.replace("\"", "\"\"");
+            escapedData = "\"" + data + "\"";
+        }
+        return escapedData;
+    }
     private String getCSVRowData(ExerciseRecord record) {
         StringBuilder builder = new StringBuilder();
-        builder.append(record.start().toString());
+        builder.append(esc(record.start().toString()));
         builder.append(",");
-        builder.append((record.distance() == null) ? "none" : record.distance().toString());
+        builder.append((record.distance() == null) ? "0.0" : esc(record.distance().toString()));
         builder.append(",");
-        builder.append((record.zoneTime() == null) ? "none" : record.zoneTime().toString());
+        builder.append((record.zoneTime() == null) ? "0.0" : esc(record.zoneTime().toString()));
         builder.append(",");
-        builder.append((record.totalTime() == null) ? "none" : record.totalTime().toString());
+        builder.append((record.totalTime() == null) ? "" : esc(record.totalTime().toString()));
         builder.append(",");
-        builder.append((record.avg() == null) ? "none" : record.avg().toString());
+        builder.append((record.avg() == null) ? "" : esc(record.avg().toString()));
         builder.append(",");
-        builder.append((record.max() == null) ? "none" : record.max().toString());
+        builder.append((record.max() == null) ? "" : esc(record.max().toString()));
         builder.append(",");
-        builder.append((record.note() == null) ? "none" : record.note().toString());
+        builder.append((record.note() == null) ? "none" : esc(record.note().toString()));
         String data = builder.toString();
         return data;
     }
@@ -89,13 +98,13 @@ public class TextFileService {
             fw.append(",");
             fw.append("Distance");
             fw.append(",");
-            fw.append("ZoneTime");
+            fw.append("Zone Time");
             fw.append(",");
-            fw.append("TotalTime");
+            fw.append("Elapsed Time");
             fw.append(",");
-            fw.append("AvgHeartRate");
+            fw.append("Avg Heart Rate");
             fw.append(",");
-            fw.append("MaxHeartRate");
+            fw.append("Max Heart Rate");
             fw.append(",");
             fw.append("Notes");
             fw.append("\n");   // End Header Record

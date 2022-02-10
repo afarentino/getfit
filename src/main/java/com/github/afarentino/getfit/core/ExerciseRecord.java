@@ -178,7 +178,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 }
             } else {
                 // Got three values to check
-                if( curMax.isHigher(next)) {
+                if(curMax.isHigher(next)) {
                     if (!curAvg.isHigher(next)) {
                         curAvg.setAvg(false);
                         next.setAvg(true);

@@ -23,6 +23,9 @@ public class HeartRateExp extends Component {
             return true;
         }
         if (this.rate > other.rate) {
+            if (rate < 100 || rate > 200) {
+                return false;
+            }
             return true;
         }
         return false;
