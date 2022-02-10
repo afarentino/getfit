@@ -124,7 +124,7 @@ public class TestRecordSuite {
     @Test
     void buildRecord() throws ParseException {
         try (Stream<String> lines = Arrays.stream(testData)) {
-            List<Record> list = RecordFactory.processLines(lines);
+            List<ExerciseRecord> list = RecordFactory.processLines(lines);
             assertEquals(1, list.size() );
             ExerciseRecord r = (ExerciseRecord) list.get(0);
             System.out.println(r.toString());

@@ -19,8 +19,8 @@ public final class RecordFactory {
      * an internal list of Fitness Records
      * @param lines
      */
-    public static List<Record> processLines(Stream<String> lines) {
-        List<Record> records = new ArrayList<Record>();
+    public static List<ExerciseRecord> processLines(Stream<String> lines) {
+        List<ExerciseRecord> records = new ArrayList<>();
         List<String> parts = new ArrayList<String>();
 
         // Consume line saving text to convert it into a record
@@ -37,7 +37,7 @@ public final class RecordFactory {
                     ListIterator<String> partsIterator = parts.listIterator();
                     ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
                     ExerciseRecord r = factory.create(partsIterator, builder);
-
+                    System.out.println(r.toString());
                     records.add(r);
                     parts.clear();  // Empty the list -- time to process the next Record!
                 }

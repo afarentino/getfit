@@ -8,7 +8,10 @@ public class DistanceExp extends Component {
 
     @Override
     public String toString() {
-        return distance.toString();
+        if (distance != null) {
+            return distance.toString();
+        }
+        return "";
     }
 
     void parse(String text) throws ParseException {

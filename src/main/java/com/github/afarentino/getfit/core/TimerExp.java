@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
+    private DistanceExp delegate = new DistanceExp();
 
     private static Integer getInteger(String sec) {
        return Integer.parseInt(sec);
@@ -30,6 +31,15 @@ public class TimerExp extends Component {
     }
 
     void parse(String text) throws ParseException {
+        try {
+            delegate.parse(text);
+        } catch (ParseException ex) {
+            System.out.println("Text is not a DistanceExp: Continuing");
+        }
+        if (delegate.toString().isEmpty() == false) {
+            throw new ParseException("Invalid TimerExp " + text);
+        }
+
         int startIndex = firstDigit(text);
         boolean hasMin = false;
         if (startIndex == -1) {
@@ -41,7 +51,7 @@ public class TimerExp extends Component {
         }
         int colonIndex = firstColon(text);
         if (colonIndex == -1) {
-            if ((hasMin == false) && !text.contains("sec") && !text.contains("am") && !text.contains("pm")) {
+            if ((hasMin == false) && !text.contains("sec") ) {
                 throw new ParseException("Invalid TimeExp: " + text);
             }
             setSeconds("0");
