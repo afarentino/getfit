@@ -14,7 +14,7 @@ public class TestRecordSuite {
             "111       ",
             "119",
             "20 min at 1:45 pm",
-            "15:24 min in zone",
+            "15:24 in zone",
             "This is line 1 of a note",
             "A note should also support adding additional lines to it  ",
             " " };
@@ -67,13 +67,13 @@ public class TestRecordSuite {
     }
 
     @Test
-    void parseTime() throws ParseException {
-        String time = "15:24 min ";
+    void parseInZone() throws ParseException {
+        String time = "15:24 in zone";
 
-        TimeExp expected = new TimeExp();
+        InZoneExp expected = new InZoneExp();
         expected.parse(time);
 
-        TimeExp actual = new TimeExp();
+        InZoneExp actual = new InZoneExp();
         actual.parse(testData[5]);
 
         String exp = expected.getValue();
@@ -105,7 +105,7 @@ public class TestRecordSuite {
     @Test
     void buildRecord() throws ParseException {
         try (Stream<String> lines = Arrays.stream(testData)) {
-
+            RecordFactory.processLines(lines);
             assertEquals(1, 2);
         }
     }

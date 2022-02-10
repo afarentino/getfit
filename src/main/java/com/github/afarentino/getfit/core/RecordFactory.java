@@ -2,6 +2,8 @@ package com.github.afarentino.getfit.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+
 import java.util.stream.Stream;
 
 /**
@@ -10,7 +12,7 @@ import java.util.stream.Stream;
 public final class RecordFactory {
 
     private final List<String> pendingParts;
-    private static final int PART_TYPES = 7;
+    private final ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
 
     /**
      * Process All Lines in the provided input stream converting them into
@@ -31,7 +33,11 @@ public final class RecordFactory {
                 if (!parts.isEmpty()) {
                     RecordFactory factory = new RecordFactory(parts);
                     System.out.println("Generating a new Exercise record...");
-                    ExerciseRecord r = factory.create();
+
+                    ListIterator<String> partsIterator = parts.listIterator();
+                    ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
+                    ExerciseRecord r = factory.create(partsIterator, builder);
+
                     records.add(r);
                     parts.clear();  // Empty the list -- time to process the next Record!
                 }
@@ -53,63 +59,22 @@ public final class RecordFactory {
         this.pendingParts = parts;
     }
 
-    public Component createStartExp(String text) throws ParseException {
-        StartExp exp = new StartExp();
-        exp.parse(text);
-        return exp;
-    }
-
-    public Component createDistanceExp(String text) throws ParseException {
-        DistanceExp exp = new DistanceExp();
-        exp.parse(text);
-        return exp;
-    }
-
-    public Component createInZoneExp(String text) throws ParseException {
-        InZoneExp exp = new InZoneExp();
-        exp.parse(text);
-        return exp;
-    }
-
-    public Component createTimeExp(String text) throws ParseException {
-        TimeExp exp = new TimeExp();
-        exp.parse(text);
-        return exp;
-    }
-
-    public Component createHeartRateExp(String text) throws ParseException {
-        HeartRateExp exp = new HeartRateExp();
-        exp.parse(text);
-        return exp;
-    }
-
-    public Component createNoteExp(String text) throws ParseException {
-        NoteExp exp = new NoteExp();
-        exp.parse(text);
-        return exp;
-    }
-
     /**
-     * Travese Pending Parts List adding components found to a Record
+     * Travese Pending Parts List adding components found to a new Excercise Record
      * @return the new Record representing the List of parts associated with this RecordFactory
      */
-    public ExerciseRecord create() {
+    public ExerciseRecord create(ListIterator<String> partsIterator, ExerciseRecord.Builder b) {
         // Step 1: Create List of Parts
-        for ( int i=0; i < pendingParts.size(); i++ ) {
-            //builder.add(partFor(pendingParts.get(0)) );
+        while (partsIterator.hasNext()) {
+            String text = partsIterator.next();
+            try {
+                b.buildNext(text);
+            } catch (ParseException e) {
+                System.out.println("Failed to build part " + text);
+            }
         }
-
-        return null;
-    }
-
-    private Component partFor(String text) throws IllegalStateException {
-        int i = 0;
-        Component c = null;
-        ExerciseRecord.Builder b = new ExerciseRecord.Builder();
-        /** try ( i < PART_TYPES && c ) {
-
-        } */
-        return null;
+        // Build what we have and move on...
+        return b.build();
     }
 
 }

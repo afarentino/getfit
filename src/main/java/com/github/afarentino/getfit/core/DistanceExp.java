@@ -4,6 +4,9 @@ public class DistanceExp extends Component {
     private Float distance; // in miles
 
     @Override
+    public Type getType() { return Type.DISTANCE; }
+
+    @Override
     public String toString() {
         return distance.toString();
     }
@@ -17,7 +20,7 @@ public class DistanceExp extends Component {
         try {
            this.distance = Float.parseFloat(distance);
         } catch (NumberFormatException e) {
-           throw new ParseException("Invalid FloatExp: " + text, e);
+           throw new ParseException("Invalid DistanceExp: " + text, e);
         }
    };
 }

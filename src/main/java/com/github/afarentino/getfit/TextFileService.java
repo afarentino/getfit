@@ -1,6 +1,8 @@
 package com.github.afarentino.getfit;
 
 import com.github.afarentino.getfit.core.RecordFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,8 @@ import java.util.List;
  * Constraints -> File read will not have more than 1 year of records (365)
  */
 public class TextFileService {
+    private static final Logger logger = LoggerFactory.getLogger(TextFileService.class);
+
     private String fileName;
     private List<Record> recordList;
 

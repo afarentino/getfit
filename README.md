@@ -26,7 +26,7 @@ The GetFit Sample Spring Native application reads as input a local
 text file containing user log entries exercise details data and 
 converts it into a CSV file. 
 
-### Sample Text File Format
+### Sample Input Text File Format
 Each exercise log entry is separated by a blank line.  Record
 entries are all optional and can appear in any order.  The
 application is capable of normalizing this data and will
@@ -36,8 +36,16 @@ record entries that cannot be parsed.
 ### Usage
 ``` getfit --inFile fileName```
 
+### CSV Output
+
 The output CSV file will be generated to the same directory
-that the input
+that the input file exists.  
+
+It conforms to the following
+7 CSV Format standardization rules found in [RFC-4180](https://datatracker.ietf.org/doc/html/rfc4180#section-2)
+
+One oin the RFC4180.
+
 
 ### Building
 Download the source code of this project and follow the

@@ -3,7 +3,6 @@ package com.github.afarentino.getfit.core;
 public class NoteExp extends Component {
     private String note = "";
 
-
     @Override
     public String toString() { return note.toString(); }
 

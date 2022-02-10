@@ -14,6 +14,9 @@ public class StartExp extends Component {
     }
 
     @Override
+    public Type getType() { return Type.START; }
+
+    @Override
     public String toString() {
         return start.toString();
     }

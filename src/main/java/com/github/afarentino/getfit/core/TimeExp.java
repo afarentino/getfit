@@ -18,6 +18,9 @@ public class TimeExp extends Component {
     }
 
     @Override
+    public Type getType() { return Type.TOTALTIME; }
+
+    @Override
     public String toString() {
         if (minutes > 0) {
             if (seconds > 0) { return minutes + " min " + seconds + " sec"; }
@@ -27,31 +30,26 @@ public class TimeExp extends Component {
     }
 
     void parse(String text) throws ParseException {
-        if (text.contains("min")) {
-            int startIndex = firstDigit(text);
-            if (startIndex == -1) {
-                throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
-            }
-            int colonIndex = firstColon(text);
-            if (colonIndex == -1) {
-                setSeconds("0");
-            } else {
-                try {
-                    StringTokenizer st = new StringTokenizer(text.substring(startIndex), ":");
-                    setMinutes(st.nextToken());
-                    while (st.hasMoreTokens()) {
-                        String candidate = st.nextToken();
-                        int lastDigit = lastDigit(candidate);
-                        setSeconds(candidate.substring(0, lastDigit));
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    throw new ParseException("Invalid TimeExp " + text, e);
-                }
-            }
+        int startIndex = firstDigit(text);
+        if (startIndex == -1) {
+            throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
-        else {
-            throw new ParseException("Invalid TimeExp: " + text);
+        int colonIndex = firstColon(text);
+        if (colonIndex == -1) {
+            setSeconds("0");
+        } else {
+            try {
+                StringTokenizer st = new StringTokenizer(text.substring(startIndex), ":");
+                setMinutes(st.nextToken());
+                while (st.hasMoreTokens()) {
+                    String candidate = st.nextToken();
+                    int lastDigit = lastDigit(candidate);
+                    setSeconds(candidate.substring(0, lastDigit));
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                throw new ParseException("Invalid TimeExp " + text, e);
+            }
         }
     }
 }

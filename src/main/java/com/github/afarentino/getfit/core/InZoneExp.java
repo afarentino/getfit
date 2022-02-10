@@ -1,27 +1,23 @@
 package com.github.afarentino.getfit.core;
 
 public class InZoneExp extends Component {
+    private TimeExp delegate = new TimeExp();
 
-    private Integer minutes = 0;
-    private Integer seconds = 0;
+    @Override
+    public Type getType() { return Type.INZONE; }
 
     @Override
     public String toString() {
-        if (minutes > 0) {
-            if (seconds > 0) { return minutes + " min " + seconds + " sec"; }
-            return minutes + " min";
-        }
-        return seconds + " sec";
+        return delegate.toString() + " in zone";
     }
 
     void parse(String text) throws ParseException {
-        if (text.contains("min")) {
-            int startIndex = firstDigit(text);
-            if (startIndex == -1) {
-                throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
-            }
+        if (text.contains("in zone")) {
+            delegate.parse(text);
         }
-        throw new ParseException("Invalid InZoneExp: " + text);
+        else {
+            throw new ParseException("Invalid InZoneExp: " + text);
+        }
     }
 
 }

@@ -1,7 +1,16 @@
 package com.github.afarentino.getfit.core;
 
 public abstract class Component {
-
+    // If new metrics are needed add to this enum
+    enum Type {
+        START,
+        DISTANCE,
+        NOTE,
+        TOTALTIME,
+        AVGHEART,
+        MAXHEART,
+        INZONE
+    }
     /**
      * Returns the first colon present in a String of text
      * @param text
@@ -57,6 +66,12 @@ public abstract class Component {
      * @throws ParseException if String cannot be Parsed
      */
     abstract void parse(String x) throws ParseException;
+
+    /**
+     * Get the type of the component
+     * @return String representing the TYPE.
+     */
+    Type getType() { return Type.NOTE; }
 
     /**
      * Return a String representation of this component
