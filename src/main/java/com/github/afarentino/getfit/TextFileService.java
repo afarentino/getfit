@@ -41,6 +41,7 @@ public class TextFileService {
         }
         return escapedData;
     }
+
     private String getCSVRowData(ExerciseRecord record) {
         StringBuilder builder = new StringBuilder();
         builder.append(esc(record.start().toString()));
@@ -55,7 +56,7 @@ public class TextFileService {
         builder.append(",");
         builder.append((record.max() == null) ? "" : esc(record.max().toString()));
         builder.append(",");
-        builder.append((record.note() == null) ? "none" : esc(record.note().toString()));
+        builder.append((record.note() == null) ? "" : esc(record.note().toString()));
         String data = builder.toString();
         return data;
     }
@@ -75,15 +76,13 @@ public class TextFileService {
             ex.printStackTrace();
         }
 
+        // Convert the RecordList into a CSV
+        // TODO: Refactor adding this into it's own methods...
         List<String> csvLines = new ArrayList<>();
         for (ExerciseRecord row : recordList) {
             String rowData = getCSVRowData(row);
             csvLines.add(rowData);
         }
-
-        // Convert the RecordList into a CSV
-        //String csvStr = recordList.stream().map(this::escapeSpecialCharacters)
-        //        .collect(Collectors.joining(","));
 
         String csvDir = path.toFile().getParent();
         String fileNameWithoutExt = this.fileName.replaceFirst("[.][^.]+$", "");
