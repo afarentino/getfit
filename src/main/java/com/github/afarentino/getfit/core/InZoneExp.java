@@ -8,7 +8,7 @@ public class InZoneExp extends Component {
 
     @Override
     public String toString() {
-        return delegate.toString() + " in zone";
+        return delegate.toString();
     }
 
     void parse(String text) throws ParseException {

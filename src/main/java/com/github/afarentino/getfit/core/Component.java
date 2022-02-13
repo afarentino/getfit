@@ -11,6 +11,15 @@ public abstract class Component {
         MAXHEART,
         INZONE
     }
+
+    /**
+     * General-purpose sliding window text search pattern -- useful for finding the smallest
+     * occurrence of a substring pattern in a string
+     */
+    public static int findIn(String s, String pattern) {
+        throw new RuntimeException("Not implemented yet!");
+    }
+
     /**
      * Returns the first colon present in a String of text
      * @param text

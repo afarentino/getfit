@@ -95,11 +95,11 @@ public class TextFileService {
         try (FileWriter fw = new FileWriter(csvFile)) {
             fw.append("Start");
             fw.append(",");
-            fw.append("Distance");
+            fw.append("Distance (miles)");
             fw.append(",");
-            fw.append("Zone Time");
+            fw.append("Zone Time (minutes)");
             fw.append(",");
-            fw.append("Elapsed Time");
+            fw.append("Elapsed Time (nearest minute)");
             fw.append(",");
             fw.append("Avg Heart Rate");
             fw.append(",");

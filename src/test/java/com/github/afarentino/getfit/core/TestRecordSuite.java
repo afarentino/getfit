@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRecordSuite {
     private final String[] testData = {
-            "Exercise 1/27/2021    ",
-            "- 1.46     ",
+            "Exercise 1/3/2021 - 11:43 am   ",
+            "- .46     ",
             "111       ",
             "119",
             "20 min at 1:45 pm",
@@ -20,18 +20,34 @@ public class TestRecordSuite {
             "A note should also support adding additional lines to it  ",
             " " };
 
+    private final String[] testData2 = {
+            "1/3/2021",
+            "0.75",
+            "Additional supported formats testing"
+    };
+
     @Test
     void parseDate() throws ParseException {
-        String date = "1/27/2021";
-
+        String date = "1/3/2021 11:43 am";
         StartExp expected = new StartExp();
         expected.parse(date);
+
         StartExp actual = new StartExp();
         actual.parse(testData[0]);
 
         String exp = expected.getValue();
         String act = actual.getValue();
+        assertTrue(act.contains(exp));
 
+        // Make sure we can still parse simpler Date only lines as well.
+        date = "1/3/2021";
+        expected = new StartExp();
+        expected.parse(date);
+        actual = new StartExp();
+        actual.parse(testData2[0]);
+
+        exp = expected.getValue();
+        act = actual.getValue();
         assertTrue(act.contains(exp));
     }
 
@@ -47,6 +63,18 @@ public class TestRecordSuite {
 
         String exp = expected.getValue();
         String act = actual.getValue();
+
+        assertTrue(act.startsWith(exp));
+
+        distance = ".75";
+        expected = new DistanceExp();
+        expected.parse(distance);
+
+        actual = new DistanceExp();
+        actual.parse(testData2[1]);
+
+        exp = expected.getValue();
+        act = actual.getValue();
 
         assertTrue(act.startsWith(exp));
     }

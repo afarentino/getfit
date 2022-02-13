@@ -35,7 +35,7 @@ record entries that cannot be parsed.
 
 ### Usage
 ``` getfit --inFile fileName```
-
+java --jar --Pargs --fileName
 ### CSV Output
 
 The output CSV file will be generated to the same directory

@@ -1,10 +1,17 @@
 package com.github.afarentino.getfit.core;
-import java.util.StringTokenizer;
 
+import java.math.RoundingMode;
+import java.util.StringTokenizer;
+import java.text.DecimalFormat;
+
+/**
+ * @see https://mkyong.com/java/how-to-round-double-float-value-to-2-decimal-points-in-java/
+ */
 public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
     private DistanceExp delegate = new DistanceExp();
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     private static Integer getInteger(String sec) {
        return Integer.parseInt(sec);
@@ -23,11 +30,9 @@ public class TimerExp extends Component {
 
     @Override
     public String toString() {
-        if (minutes > 0) {
-            if (seconds > 0) { return minutes + " min " + seconds + " sec"; }
-            return minutes + " min";
-        }
-        return seconds + " sec";
+        double decMinutes = minutes + (seconds * .0166);
+        df.setRoundingMode(RoundingMode.UP);
+        return df.format(decMinutes);
     }
 
     void parse(String text) throws ParseException {
