@@ -44,7 +44,7 @@ public class HeartRateExp extends Component {
         if (rate > 100 && rate < 200) {
             return rate.toString();
         }
-        return "HeartRate out of range " + rate;
+        throw new IllegalStateException(rate + " is out of target range");
     }
 
     void parse(String text) throws ParseException {
@@ -54,6 +54,8 @@ public class HeartRateExp extends Component {
         }
         String heartRate = text.substring(startIndex).trim();
         try {
+            int temp = Integer.parseInt(heartRate);
+            if (temp > 200) { throw new ParseException("Invalid HearRateExp: " + temp + "is > 200"); }
             this.rate = Integer.parseInt(heartRate);
         } catch (NumberFormatException e) {
             throw new ParseException("Invalid HeartRateExp: " + text, e);

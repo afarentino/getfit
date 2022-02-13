@@ -25,6 +25,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                               Component distance, // in miles
                               Component zoneTime, // contains "in zone"
                               Component totalTime,
+                              Component calories,
                               Component avg,
                               Component max,
                               Component note) {
@@ -39,18 +40,20 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 builder.distance,
                 builder.zoneTime,
                 builder.totalTime,
+                builder.calories,
                 builder.avg,
                 builder.max,
                 builder.note);
     }
 
     public static class Builder {
-        public static final int NUM_COLS = 7;
+        public static final int NUM_COLS = 8;
 
         private Component start;
         private Component distance;
         private Component zoneTime;
         private Component totalTime;
+        private Component calories;
         private Component avg;
         private Component max;
         private Component note; //optional can be null
@@ -65,6 +68,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             this.distance = null;
             this.zoneTime = null;
             this.totalTime = null;
+            this.calories = null;
             this.avg = null;
             this.max = null;
             this.note = null;
@@ -86,10 +90,13 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             //        TOTALTIME,
             //        AVGHEART,
             //        MAXHEART,
-            //        INZONE
+            //        INZONE,
+            //        CALORIES
             //    }
             if (note == null)
                 this.parseStack.push(Component.Type.NOTE);
+            if (calories == null)
+                this.parseStack.push(Component.Type.CALORIES);
             if (max == null)
                 this.parseStack.push(Component.Type.MAXHEART);
             if (avg == null)
@@ -143,6 +150,14 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             return this;
         }
 
+        public Builder calories(String text) throws ParseException {
+            CalorieExp cals = (this.calories == null) ? new CalorieExp() : (CalorieExp)this.calories;
+            cals.parse(text);
+            this.calories = cals;
+            colMap.put(cals.getType(), this.calories);
+            return this;
+        }
+
         private void setMaxAndAvg(HeartRateExp next) {
             HeartRateExp curMax = (HeartRateExp)max;
             HeartRateExp curAvg = (HeartRateExp)avg;
@@ -178,7 +193,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 }
             } else {
                 // Got three values to check
-                if(curMax.isHigher(next)) {
+                if (curMax.isHigher(next)) {
                     if (!curAvg.isHigher(next)) {
                         curAvg.setAvg(false);
                         next.setAvg(true);
@@ -260,6 +275,10 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 case MAXHEART:
                     if (max == null)
                         max(text);
+                    break;
+                case CALORIES:
+                    if (calories == null)
+                        calories(text);
                     break;
                 case NOTE:
                     note(text);

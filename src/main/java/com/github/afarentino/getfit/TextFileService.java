@@ -52,6 +52,8 @@ public class TextFileService {
         builder.append(",");
         builder.append((record.totalTime() == null) ? "" : esc(record.totalTime().toString()));
         builder.append(",");
+        builder.append((record.calories() == null) ? "" : esc(record.calories().toString()));
+        builder.append(",");
         builder.append((record.avg() == null) ? "" : esc(record.avg().toString()));
         builder.append(",");
         builder.append((record.max() == null) ? "" : esc(record.max().toString()));
@@ -100,6 +102,8 @@ public class TextFileService {
             fw.append("Zone Time (minutes)");
             fw.append(",");
             fw.append("Elapsed Time (nearest minute)");
+            fw.append(",");
+            fw.append("Calories Burned");
             fw.append(",");
             fw.append("Avg Heart Rate");
             fw.append(",");

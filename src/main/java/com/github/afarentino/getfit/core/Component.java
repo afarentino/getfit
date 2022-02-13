@@ -9,7 +9,8 @@ public abstract class Component {
         TOTALTIME,
         AVGHEART,
         MAXHEART,
-        INZONE
+        INZONE,
+        CALORIES
     }
 
     /**
