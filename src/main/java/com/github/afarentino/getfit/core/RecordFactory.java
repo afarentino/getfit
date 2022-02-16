@@ -10,7 +10,6 @@ import java.util.stream.Stream;
  * Class Responsible for constructing new Records as needed
  */
 public final class RecordFactory {
-
     private final List<String> pendingParts;
     private final ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
 
@@ -51,6 +50,7 @@ public final class RecordFactory {
 
         return records;
     }
+
     /**
      * Create a record factory designed to create records for the specified list of Parts
      * @param parts

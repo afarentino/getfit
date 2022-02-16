@@ -110,6 +110,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             if (start == null)
                 this.parseStack.push(Component.Type.START);
         }
+
         public boolean containsType(Component.Type t) {
            if (colMap.containsKey(t)) {
                return true;
@@ -154,7 +155,12 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             CalorieExp cals = (this.calories == null) ? new CalorieExp() : (CalorieExp)this.calories;
             cals.parse(text);
             this.calories = cals;
-            colMap.put(cals.getType(), this.calories);
+
+            if (containsType(Component.Type.CALORIES)) {
+                colMap.replace(Component.Type.CALORIES, this.calories);
+            } else {
+                colMap.put(cals.getType(), this.calories);
+            }
             return this;
         }
 
@@ -209,12 +215,12 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 }
             }
 
-            if (colMap.containsKey(Component.Type.AVGHEART))
+            if (containsType(Component.Type.AVGHEART))
                 colMap.replace(Component.Type.AVGHEART, this.avg);
             else
                 colMap.put(Component.Type.AVGHEART, this.avg);
 
-            if (colMap.containsKey(Component.Type.MAXHEART))
+            if (containsType(Component.Type.MAXHEART))
                 colMap.replace(Component.Type.MAXHEART, this.max);
             else
                 colMap.put(Component.Type.MAXHEART, this.max);
@@ -280,7 +286,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                     if (calories == null)
                         calories(text);
                     break;
-                case NOTE:
+                case NOTE: // always adds
                     note(text);
                     break;
             }
@@ -293,11 +299,30 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
         }
 
         /*
-         * Print info about the Pending record to help user create better ones
+         * Method used to check for errors in record values and to make any final adjustments to parsed
+         * values prior to construction.
+         * Records are immutable in Java so this is the final chance to set the desired values of any
+         * parsed records prior to construction.
          */
         private void validate() throws IllegalStateException {
             if (colMap.isEmpty()) {
                 throw new IllegalStateException("Attempt to build a record with no values");
+            }
+
+            if (this.calories != null && this.max != null ) {
+                Integer calories = Integer.parseInt(this.calories.getValue());
+                Integer max = Integer.parseInt(this.max.getValue());
+
+                try {
+                    // Swap max with calories: Current implementation assumes Calories is always highest of these
+                    if (calories < max) {
+                        String newMax = this.calories.getValue();
+                        calories(this.max.getValue());
+                        max(newMax);
+                    }
+                } catch (ParseException e) {
+                    throw new IllegalStateException(e);
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ public class DistanceExp extends Component {
 
     void parse(String text) throws ParseException {
         int startIndex = firstDigit(text);
-        if (startIndex == -1) {
+        if ( startIndex == -1 ) {
             throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
 

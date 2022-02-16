@@ -46,9 +46,9 @@ public class TextFileService {
         StringBuilder builder = new StringBuilder();
         builder.append(esc(record.start().toString()));
         builder.append(",");
-        builder.append((record.distance() == null) ? "0.0" : esc(record.distance().toString()));
+        builder.append((record.distance() == null) ? "" : esc(record.distance().toString()));
         builder.append(",");
-        builder.append((record.zoneTime() == null) ? "0.0" : esc(record.zoneTime().toString()));
+        builder.append((record.zoneTime() == null) ? "" : esc(record.zoneTime().toString()));
         builder.append(",");
         builder.append((record.totalTime() == null) ? "" : esc(record.totalTime().toString()));
         builder.append(",");

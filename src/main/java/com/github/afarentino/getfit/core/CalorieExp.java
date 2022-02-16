@@ -1,10 +1,16 @@
 package com.github.afarentino.getfit.core;
 
 public class CalorieExp extends Component {
-    private static final int CALORIE_THRESHOLD = 168;
+    private static final int CALORIE_THRESHOLD = 168;  // TODO: Remove these in a future release
     private static final int CALORIE_MAX = 2000;
     HeartRateExp delegate = new HeartRateExp();
+
     private Integer calories;
+
+    @Override
+    void setValue(Object t) {
+        this.calories = (Integer)t;
+    }
 
     @Override
     public Type getType() { return Type.CALORIES; }
@@ -24,6 +30,7 @@ public class CalorieExp extends Component {
         if (startIndex == -1) {
             throw new ParseException("Unparseable Exp: \"" + text + "\" does not contain a digit");
         }
+
         String calsBurned = text.substring(startIndex).trim();
         try {
             int temp = Integer.parseInt(calsBurned);

@@ -23,7 +23,19 @@ public class TestRecordSuite {
     private final String[] testData2 = {
             "1/3/2021",
             "0.75",
-            "Additional supported formats testing"
+            "Additional supported formats testing",
+            "15 min at 2:15 pm"
+    };
+
+    private final String[] testData3 = {
+            "3/15/2021",
+            "1.69",
+            "175",                 // Assert this is Calories Burned
+            "16:21 min job zk w",  // Assert this should be a Zone Time
+            "111",
+            "123",
+            "20 min at 12:05 pm",  // This line contains the elapsed/total time
+            " "
     };
 
     @Test
@@ -49,11 +61,39 @@ public class TestRecordSuite {
         exp = expected.getValue();
         act = actual.getValue();
         assertTrue(act.contains(exp));
+
+    }
+
+    /*
+     * Start records support re-parsing at runtime
+     * Validate this
+     */
+    @Test
+    void parseDateAddTime() throws ParseException {
+        String date = "1/3/2021";
+        String time = "11:43 am";
+
+        StartExp expected = new StartExp();
+        expected.parse(date);
+        StartExp actual = new StartExp();
+        actual.parse(testData2[0]);
+
+        String exp = expected.getValue();
+        String act = actual.getValue();
+        assertTrue(act.contains(exp));
+
+        // Add time and validate
+        String dateTime = "1/3/2021 11:43 am";
+        expected = new StartExp();
+        expected.parse(date);
+        exp = expected.getValue();
+        actual.setValue(time);
+        assertTrue(act.startsWith(exp));
     }
 
     @Test
     void parseDistance() throws ParseException {
-        String distance = "1.46";
+        String distance = ".46";
 
         DistanceExp expected = new DistanceExp();
         expected.parse(distance);
@@ -146,8 +186,8 @@ public class TestRecordSuite {
     }
 
     /*
-     *  Helps validate the underlying creation
-     *  process used to build an ExerciseRecord
+     *  Helps ensure the underlying creation
+     *  process used to build an ExerciseRecord has not regressed
      */
     @Test
     void buildRecord() throws ParseException {
@@ -157,6 +197,20 @@ public class TestRecordSuite {
             ExerciseRecord r = (ExerciseRecord) list.get(0);
             System.out.println(r.toString());
         }
+    }
+
+    @Test
+    void validateRecord() throws ParseException {
+        ExerciseRecord r;
+        try (Stream<String> lines = Arrays.stream(testData3)) {
+            List<ExerciseRecord> list = RecordFactory.processLines(lines);
+            assertEquals(1, list.size() );
+            r = (ExerciseRecord) list.get(0);
+            System.out.println(r.toString());
+        }
+
+        assertEquals("175", r.calories());
+        assertEquals( "16", r.totalTime() );  // Elapsed should round up + display as an int not decimal
     }
 
 }

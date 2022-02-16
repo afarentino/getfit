@@ -17,9 +17,7 @@ public abstract class Component {
      * General-purpose sliding window text search pattern -- useful for finding the smallest
      * occurrence of a substring pattern in a string
      */
-    public static int findIn(String s, String pattern) {
-        throw new RuntimeException("Not implemented yet!");
-    }
+    public static int findIn(String s, String pattern) { throw new RuntimeException("Not implemented yet!"); }
 
     /**
      * Returns the first colon present in a String of text
@@ -93,5 +91,12 @@ public abstract class Component {
     String getValue() {
         return this.toString();
     }
+
+    /**
+     * Optional setter for concrete subtypes to implement
+     * if they want to support dynamically changing there parsed
+     * value programmatically
+     */
+    void setValue(Object value) { throw new RuntimeException("Not implemented"); }
 
 }

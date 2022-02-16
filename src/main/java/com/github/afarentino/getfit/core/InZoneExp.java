@@ -1,19 +1,23 @@
 package com.github.afarentino.getfit.core;
 
-public class InZoneExp extends Component {
-    private TimerExp delegate = new TimerExp();
+public class InZoneExp extends TimerExp {
+    //private TimerExp delegate = new TimerExp();
 
     @Override
-    public Type getType() { return Type.INZONE; }
+    public Type getType() {
+        return Type.INZONE;
+    }
 
     @Override
     public String toString() {
-        return delegate.toString();
+        return super.toString();
     }
 
+    @Override
     void parse(String text) throws ParseException {
+        // Make sure this is a TimerExp
         if (text.contains("in zone")) {
-            delegate.parse(text);
+            super.parse(text);
         }
         else {
             throw new ParseException("Invalid InZoneExp: " + text);

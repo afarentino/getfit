@@ -12,7 +12,7 @@ This small application and the programming challenge
 it solves, presents a way to do just that.
 
 ### Technologies Used
-(Spring Native, Spring Boot, Gradle, JUnit 5, Java 17)
+(Spring Native, Spring Boot, Gradle, GraalVM, JUnit 5, Java 17)
 
 ### Application Background
 

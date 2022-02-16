@@ -11,7 +11,6 @@ public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
     private DistanceExp delegate = new DistanceExp();
-    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     private static Integer getInteger(String sec) {
        return Integer.parseInt(sec);
@@ -30,9 +29,19 @@ public class TimerExp extends Component {
 
     @Override
     public String toString() {
-        double decMinutes = minutes + (seconds * .0166);
-        df.setRoundingMode(RoundingMode.UP);
-        return df.format(decMinutes);
+        double secs = seconds * (1.0/60.0);
+        double decMinutes = minutes + secs;
+
+        if (this.getType() == Type.INZONE) {
+            DecimalFormat df = new DecimalFormat( "0.00");
+            df.setRoundingMode(RoundingMode.UP);
+            return df.format(decMinutes);
+        } else {
+            // Use Math.round to convert to int it will round the double up
+            int minutes = (int) Math.round(decMinutes);
+            return Integer.toString(minutes);
+        }
+
     }
 
     void parse(String text) throws ParseException {
