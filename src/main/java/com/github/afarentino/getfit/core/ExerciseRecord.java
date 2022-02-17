@@ -318,6 +318,9 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                     if (calories < max) {
                         String newMax = this.calories.getValue();
                         calories(this.max.getValue());
+                        colMap.remove(Component.Type.MAXHEART, this.max);
+                        // Set new max
+                        this.max = null;
                         max(newMax);
                     }
                 } catch (ParseException e) {

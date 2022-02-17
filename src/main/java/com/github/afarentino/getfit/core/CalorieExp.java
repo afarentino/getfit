@@ -34,8 +34,8 @@ public class CalorieExp extends Component {
         String calsBurned = text.substring(startIndex).trim();
         try {
             int temp = Integer.parseInt(calsBurned);
-            if (temp < CALORIE_THRESHOLD || temp > CALORIE_MAX) {
-                throw new ParseException(temp + " calories burned is below configured threshold of 200");
+            if (temp > CALORIE_MAX) {
+                throw new ParseException(temp + " calories burned is above configured threshold of 2000");
             }
             this.calories = Integer.parseInt(calsBurned);
         } catch (NumberFormatException e) {

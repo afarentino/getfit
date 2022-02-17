@@ -7,7 +7,11 @@ public class NoteExp extends Component {
     public String toString() { return note.toString(); }
 
     public void parse(String text) throws ParseException {
-        this.note = this.note + " " + text;   // allows us to parse multi-line notes as one record
-        this.note = this.note.trim(); // any leading and trailing whitespace.
+        if (note.isEmpty() == false) {
+            note = note + " " + text;   // allows us to parse multi-line notes as one record
+        } else {
+            note = text;
+        }
+        note = note.trim(); // any leading and trailing whitespace.
     }
 }
