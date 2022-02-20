@@ -209,8 +209,8 @@ public class TestRecordSuite {
             System.out.println(r.toString());
         }
 
-        assertEquals("175", r.calories());
-        assertEquals( "16", r.totalTime() );  // Elapsed should round up + display as an int not decimal
+        assertEquals("175", r.calories().toString());
+        assertEquals( "20", r.totalTime().toString() );  // Elapsed should round up + display as an int not decimal
     }
 
 }

@@ -309,6 +309,14 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 throw new IllegalStateException("Attempt to build a record with no values");
             }
 
+            Double zoneTime = (this.zoneTime != null) ? Double.parseDouble(this.zoneTime.getValue()) : 0.0;
+            Double totalTime = (this.totalTime != null) ? Double.parseDouble(this.totalTime.getValue()) : 0.0;
+
+            if (zoneTime > totalTime) {
+                if (this.totalTime != null) {
+                    //TODO: String temp = this.zone
+                }
+            }
             if (this.calories != null && this.max != null ) {
                 Integer calories = Integer.parseInt(this.calories.getValue());
                 Integer max = Integer.parseInt(this.max.getValue());

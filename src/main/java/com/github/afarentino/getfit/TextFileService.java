@@ -86,11 +86,10 @@ public class TextFileService {
             csvLines.add(rowData);
         }
 
-        String csvDir = path.toFile().getParent();
-        String fileNameWithoutExt = this.fileName.replaceFirst("[.][^.]+$", "");
+        String fileNameWithoutExt = path.toAbsolutePath().normalize().toString().replaceFirst("[.][^.]+$", "");
         String csvFileName = fileNameWithoutExt + ".csv";
 
-        File csvFile = new File(csvDir, csvFileName);
+        File csvFile = new File(csvFileName);
         if (csvFile.exists()) {
             csvFile.delete();  // Delete old file...
         }

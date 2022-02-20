@@ -11,6 +11,8 @@ public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
     private DistanceExp delegate = new DistanceExp();
+    private String text;
+    private Double decMinutes;
 
     private static Integer getInteger(String sec) {
        return Integer.parseInt(sec);
@@ -25,12 +27,26 @@ public class TimerExp extends Component {
     }
 
     @Override
+    String getValue() {
+        return this.decMinutes.toString();
+    }
+
+    @Override
+    void setValue(Object value) {
+        try {
+            String newText = (String) value;
+            this.parse(newText);
+        } catch (ParseException ex) {
+            throw new IllegalStateException( ex );
+        }
+    }
+
+    @Override
     public Type getType() { return Type.TOTALTIME; }
 
     @Override
     public String toString() {
-        double secs = seconds * (1.0/60.0);
-        double decMinutes = minutes + secs;
+
 
         if (this.getType() == Type.INZONE) {
             DecimalFormat df = new DecimalFormat( "0.00");
@@ -84,5 +100,10 @@ public class TimerExp extends Component {
                 throw new ParseException("Invalid TimerExp " + text, e);
             }
         }
+        // Wrap up parsing work here by setting state
+        this.text = text;
+        double secs = seconds * (1.0/60.0);
+        double decMinutesVal = minutes + secs;
+        this.decMinutes = decMinutesVal;
     }
 }

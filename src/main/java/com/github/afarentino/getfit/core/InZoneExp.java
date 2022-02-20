@@ -16,12 +16,7 @@ public class InZoneExp extends TimerExp {
     @Override
     void parse(String text) throws ParseException {
         // Make sure this is a TimerExp
-        if (text.contains("in zone")) {
-            super.parse(text);
-        }
-        else {
-            throw new ParseException("Invalid InZoneExp: " + text);
-        }
+        super.parse(text);
     }
 
 }
