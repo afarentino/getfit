@@ -64,7 +64,7 @@ public class TimerExp extends Component {
         try {
             delegate.parse(text);
         } catch (ParseException ex) {
-            System.out.println("Text is not a DistanceExp: Continuing");
+            logger.debug("Text is not a DistanceExp: Continuing");
         }
         if (delegate.toString().isEmpty() == false) {
             throw new ParseException("Invalid TimerExp " + text);

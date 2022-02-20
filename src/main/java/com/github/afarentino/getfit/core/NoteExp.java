@@ -4,7 +4,7 @@ public class NoteExp extends Component {
     private String note = "";
 
     @Override
-    public String toString() { return note.toString(); }
+    public String toString() { return note.trim(); }
 
     public void parse(String text) throws ParseException {
         if (note.isEmpty() == false) {

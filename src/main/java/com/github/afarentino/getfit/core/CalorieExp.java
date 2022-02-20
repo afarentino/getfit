@@ -24,7 +24,7 @@ public class CalorieExp extends Component {
         try {
             delegate.parse(text);
         } catch (ParseException ex) {
-            System.out.println("Text is not a HeartRateExp...");
+            logger.debug("Text is not a HeartRateExp...");
         }
         int startIndex = firstDigit(text);
         if (startIndex == -1) {

@@ -47,7 +47,7 @@ public final class RecordFactory {
 
         // Consume line saving text to convert it into a record
         lines.forEach(s -> {
-            logger.info("Current Line: " + s);   // Just print for now
+            logger.debug("Current Line: " + s);   // Just print for now
 
             // Now it's time to generate a Records
             // Do what we can at the time
@@ -57,7 +57,7 @@ public final class RecordFactory {
                     parts.clear();  // Empty the list -- time to process the next Record!
                 }
                 else {
-                    logger.info("Extra blank line detected ignoring");
+                    logger.debug("Extra blank line detected ignoring");
                 }
             } else {
                 parts.add(s);  // Add line to Parts list -- and move on to next in stream

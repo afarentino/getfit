@@ -1,5 +1,8 @@
 package com.github.afarentino.getfit.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class Component {
     // If new metrics are needed add to this enum
     enum Type {
@@ -12,6 +15,9 @@ public abstract class Component {
         INZONE,
         CALORIES
     }
+
+    // Logger to be used by any concrete subclasses in this hierarchy
+    protected static final Logger logger = LoggerFactory.getLogger(Component.class);
 
     /**
      * General-purpose sliding window text search pattern -- useful for finding the smallest

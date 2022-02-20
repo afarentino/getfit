@@ -46,8 +46,8 @@ public class GetfitApplication implements ApplicationRunner {
 		this.fileService = new TextFileService(fileName);
 		// Convert to a CSV file
 		File csv = fileService.convertToCSV();
-		if (csv != null) {
-			logger.info("CSV generated is " + csv.getAbsolutePath() + File.separator + csv.getName());
+		if (csv != null && csv.exists()) {
+			logger.info("CSV generated is " + csv.getName());
 		} else {
 			logger.error("Failed to generated CSV");
 		}
