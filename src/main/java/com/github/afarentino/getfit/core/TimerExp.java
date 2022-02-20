@@ -66,6 +66,9 @@ public class TimerExp extends Component {
         } catch (ParseException ex) {
             logger.debug("Text is not a DistanceExp: Continuing");
         }
+        if (text.contains("am") || text.contains("AM") || text.contains("pm") || text.contains("PM")) {
+            throw new ParseException("Unparseable TimerExp: \"" + text + "\" contains AM or PM");
+        }
         if (delegate.toString().isEmpty() == false) {
             throw new ParseException("Invalid TimerExp " + text);
         }
