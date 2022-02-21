@@ -10,9 +10,17 @@ import java.text.DecimalFormat;
 public class TimerExp extends Component {
     private Integer minutes = 0;
     private Integer seconds = 0;
+
     private DistanceExp delegate = new DistanceExp();
     private String text;
     private Double decMinutes;
+
+    private Type t = Type.TOTALTIME;
+    private boolean hasInZone = false;
+
+    public boolean hasInZone() {
+        return this.hasInZone;
+    }
 
     private static Integer getInteger(String sec) {
        return Integer.parseInt(sec);
@@ -42,12 +50,18 @@ public class TimerExp extends Component {
     }
 
     @Override
-    public Type getType() { return Type.TOTALTIME; }
+    public Type getType() { return t; }
+
+    /**
+     * Override the display type for this TimerExp
+     * @param t
+     */
+    public void setType(Component.Type t) {
+        this.t = t;
+    }
 
     @Override
     public String toString() {
-
-
         if (this.getType() == Type.INZONE) {
             DecimalFormat df = new DecimalFormat( "0.00");
             df.setRoundingMode(RoundingMode.UP);
@@ -57,7 +71,6 @@ public class TimerExp extends Component {
             int minutes = (int) Math.round(decMinutes);
             return Integer.toString(minutes);
         }
-
     }
 
     void parse(String text) throws ParseException {
@@ -67,7 +80,9 @@ public class TimerExp extends Component {
             logger.debug("Text is not a DistanceExp: Continuing");
         }
         if (text.contains("am") || text.contains("AM") || text.contains("pm") || text.contains("PM")) {
-            throw new ParseException("Unparseable TimerExp: \"" + text + "\" contains AM or PM");
+            if (text.contains("at") == false) {
+                throw new ParseException("Unparseable TimerExp: \"" + text + "\" contains only AM or PM");
+            }
         }
         if (delegate.toString().isEmpty() == false) {
             throw new ParseException("Invalid TimerExp " + text);
@@ -108,5 +123,8 @@ public class TimerExp extends Component {
         double secs = seconds * (1.0/60.0);
         double decMinutesVal = minutes + secs;
         this.decMinutes = decMinutesVal;
+        if (text.contains("in zone")) {
+            hasInZone = true;
+        }
     }
 }

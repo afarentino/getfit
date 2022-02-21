@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 public class StartExp extends Component {
     private Date start;
     private String text;
+    private boolean timeMissing;
 
     // Format to use for Date
     private SimpleDateFormat df;
@@ -20,9 +21,10 @@ public class StartExp extends Component {
      * @param d
      * @throws java.text.ParseException
      */
-    private void setStart(String text) throws java.text.ParseException {
+    private void setStart(String text, boolean timeMissing) throws java.text.ParseException {
         this.start = df.parse(text);
         this.text = text;
+        this.timeMissing = timeMissing;
     }
 
     /**
@@ -57,11 +59,11 @@ public class StartExp extends Component {
         try {
             if ( start.contains("AM") || start.contains("PM") ) {
                 df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-                setStart(start.replaceAll("-", " "));  // parse a date time
+                setStart(start.replaceAll("-", " "), false);  // parse a date time
             }
             else {
                 df = new SimpleDateFormat("MM/dd/yyyy");
-                setStart(start);  // Attempt to parse using only a Date pattern
+                setStart(start, true);  // Attempt to parse using only a Date pattern
             }
         } catch (java.text.ParseException e) {
             throw new ParseException(text + " is not a StartExp", e);

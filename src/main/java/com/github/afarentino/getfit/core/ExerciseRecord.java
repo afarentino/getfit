@@ -136,10 +136,15 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
         }
 
         public Builder zoneTime(String text) throws ParseException {
-            InZoneExp zoneTime = (this.zoneTime == null) ? new InZoneExp() : (InZoneExp)this.zoneTime;
+            Component zoneTime = (this.zoneTime == null) ? new InZoneExp() : this.zoneTime;
             zoneTime.parse(text);
             this.zoneTime = zoneTime;
-            colMap.put(zoneTime.getType(), this.zoneTime);
+
+            if (containsType(Component.Type.INZONE)) {
+                colMap.replace(Component.Type.INZONE, this.zoneTime);
+            } else {
+                colMap.put(zoneTime.getType(), this.zoneTime);
+            }
             return this;
         }
 
@@ -147,7 +152,12 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             TimerExp totalTime = (this.totalTime == null) ? new TimerExp() : (TimerExp)this.totalTime;
             totalTime.parse(text);
             this.totalTime = totalTime;
-            colMap.put(totalTime.getType(), this.totalTime);
+
+            if (containsType(Component.Type.TOTALTIME)) {
+                colMap.replace(Component.Type.TOTALTIME, this.totalTime);
+            } else {
+                colMap.put(totalTime.getType(), this.totalTime);
+            }
             return this;
         }
 
@@ -313,8 +323,25 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
             Double totalTime = (this.totalTime != null) ? Double.parseDouble(this.totalTime.getValue()) : 0.0;
 
             if (zoneTime > totalTime) {
+                // Swap these values before building...
                 if (this.totalTime != null) {
-                    //TODO: String temp = this.zone
+                    TimerExp newZoneTime = (TimerExp)this.totalTime;
+                    TimerExp newTotalTime = (TimerExp)this.zoneTime;
+
+                    // Override the display types as we are not going to reparse these objects
+                    newZoneTime.setType(Component.Type.INZONE);
+                    newTotalTime.setType(Component.Type.TOTALTIME);
+                    this.totalTime = newTotalTime;
+                    this.zoneTime = newZoneTime;
+
+                } else {
+                    // If the parsed time does not contain an in zone identifier make it elapsed time
+                    TimerExp t = (TimerExp)this.zoneTime;
+                    if (t.hasInZone() == false) {
+                        t.setType(Component.Type.TOTALTIME);
+                        this.totalTime = t;
+                        this.zoneTime = null;
+                    }
                 }
             }
             if (this.calories != null && this.max != null ) {

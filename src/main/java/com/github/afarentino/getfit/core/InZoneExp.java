@@ -5,7 +5,7 @@ public class InZoneExp extends TimerExp {
 
     @Override
     public Type getType() {
-        return Type.INZONE;
+        return super.getType();
     }
 
     @Override
