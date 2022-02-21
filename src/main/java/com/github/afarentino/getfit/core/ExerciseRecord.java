@@ -344,6 +344,13 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                     }
                 }
             }
+            if (this.totalTime != null && this.totalTime.getType() != Component.Type.TOTALTIME) {
+                throw new IllegalStateException(this.totalTime.toString() +  " has wrong display type");
+            }
+            if (this.zoneTime != null && this.zoneTime.getType() != Component.Type.INZONE) {
+                throw new IllegalStateException(this.zoneTime.toString() +  " has wrong display type");
+            }
+
             if (this.calories != null && this.max != null ) {
                 Integer calories = Integer.parseInt(this.calories.getValue());
                 Integer max = Integer.parseInt(this.max.getValue());

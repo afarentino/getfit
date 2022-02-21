@@ -17,6 +17,7 @@ public class InZoneExp extends TimerExp {
     void parse(String text) throws ParseException {
         // Make sure this is a TimerExp
         super.parse(text);
+        this.setType(Component.Type.INZONE);
     }
 
 }

@@ -15,7 +15,7 @@ public class TimerExp extends Component {
     private String text;
     private Double decMinutes;
 
-    private Type t = Type.TOTALTIME;
+    protected Type t;
     private boolean hasInZone = false;
 
     public boolean hasInZone() {
@@ -125,6 +125,9 @@ public class TimerExp extends Component {
         this.decMinutes = decMinutesVal;
         if (text.contains("in zone")) {
             hasInZone = true;
+            this.setType(Component.Type.INZONE);
+        } else {
+            this.setType(Component.Type.TOTALTIME);
         }
     }
 }
