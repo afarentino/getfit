@@ -16,7 +16,7 @@ public final class RecordFactory {
     private static final Logger logger = LoggerFactory.getLogger(RecordFactory.class);
 
     private final List<String> pendingParts;
-    private final ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
+    private final ExerciseRecord.Builder builder;
 
     /**
      * Attempt to generate a Record
@@ -25,13 +25,9 @@ public final class RecordFactory {
         if (parts.isEmpty()) {
             return null;
         }
-        RecordFactory factory = new RecordFactory(parts);
-
         logger.info("Generating a new Exercise record...");
-        ListIterator<String> partsIterator = parts.listIterator();
-        ExerciseRecord.Builder builder = new ExerciseRecord.Builder();
-        ExerciseRecord r = factory.create(partsIterator, builder);
-
+        RecordFactory factory = new RecordFactory(parts, null);
+        ExerciseRecord r = factory.create();
         logger.info(r.toString());
         return r;
     }
@@ -71,7 +67,6 @@ public final class RecordFactory {
                 parts.clear();
             }
         }
-
         return records;
     }
 
@@ -79,15 +74,19 @@ public final class RecordFactory {
      * Create a record factory designed to create records for the specified list of Parts
      * @param parts
      */
-    public RecordFactory(List<String> parts) {
+    public RecordFactory(List<String> parts, ExerciseRecord.Builder b) {
         this.pendingParts = parts;
+        this.builder = (b != null) ? b : new ExerciseRecord.Builder();
     }
 
     /**
      * Travese Pending Parts List adding components found to a new Excercise Record
      * @return the new Record representing the List of parts associated with this RecordFactory
      */
-    public ExerciseRecord create(ListIterator<String> partsIterator, ExerciseRecord.Builder b) {
+    private ExerciseRecord create() {
+        ListIterator<String> partsIterator = this.pendingParts.listIterator();
+        ExerciseRecord.Builder b = this.builder;
+
         // Step 1: Create List of Parts
         while (partsIterator.hasNext()) {
             String text = partsIterator.next();
@@ -106,8 +105,9 @@ public final class RecordFactory {
                 }
             } while (retriesLeft > 0);
         }
+
         // Build what we have and move on...
-        return b.build();
+        return builder.build();
     }
 
 }

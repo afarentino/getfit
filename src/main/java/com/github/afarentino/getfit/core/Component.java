@@ -3,6 +3,9 @@ package com.github.afarentino.getfit.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public abstract class Component {
     // If new metrics are needed add to this enum
     enum Type {
@@ -16,14 +19,29 @@ public abstract class Component {
         CALORIES
     }
 
+    /**
+     * @see: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html
+     */
+    public static final String TIME_PATTERN = "(1[012]|[1-9]):[0-5][0-9](\s+)(?i)(am|pm)";
+
     // Logger to be used by any concrete subclasses in this hierarchy
     protected static final Logger logger = LoggerFactory.getLogger(Component.class);
 
     /**
-     * General-purpose sliding window text search pattern -- useful for finding the smallest
-     * occurrence of a substring pattern in a string
+     * Find the first matching occurrence of a regex pattern in a string
+     * @return the extracted match if found or null if no match is found.
      */
-    public static int findIn(String s, String pattern) { throw new RuntimeException("Not implemented yet!"); }
+    public static String firstIn(String s, String pattern) {
+        if (s == null || s.isEmpty()) {
+            return null;
+        }
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(s);
+        if (!m.matches()) {
+            return null;
+        }
+        return m.group(0);  // match found return it!
+    }
 
     /**
      * Returns the first colon present in a String of text

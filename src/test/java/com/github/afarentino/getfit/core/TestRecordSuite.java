@@ -208,9 +208,10 @@ public class TestRecordSuite {
             r = (ExerciseRecord) list.get(0);
             System.out.println(r.toString());
         }
-
         assertEquals("175", r.calories().toString());
         assertEquals( "20", r.totalTime().toString() );  // Elapsed should round up + display as an int not decimal
+        String dateTime = "03/15/2021 12:05 PM";
+        assertEquals(dateTime, r.start().toString() );
     }
 
 }

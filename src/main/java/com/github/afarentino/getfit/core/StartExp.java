@@ -15,7 +15,6 @@ public class StartExp extends Component {
     // Format to use for Date
     private SimpleDateFormat df;
 
-
     /*
      * @param text
      * @param d
@@ -29,16 +28,20 @@ public class StartExp extends Component {
 
     /**
      * Use this method to
-     * add a time programmatically to the formatted DateTime value
+     * add a time to the formatted DateTime value
      * @param t
      */
     @Override
     public void setValue(Object t) {
         try {
-            String newText= (this.text != null) ? this.text + ' ' + (String) t : (String) t;
-            this.parse(newText);
+            if (this.timeMissing == true) {
+                String newText = (this.text != null) ? this.text + ' ' + (String) t : (String) t;
+                this.parse(newText);
+            } else {
+                logger.debug("Attempted to add a Time to a StartExp when it is already set. Ignoring...");
+            }
         } catch (ParseException ex) {
-            throw new IllegalStateException( ex );
+            throw new IllegalStateException(ex);
         }
     }
 

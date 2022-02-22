@@ -315,6 +315,7 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
          * parsed records prior to construction.
          */
         private void validate() throws IllegalStateException {
+
             if (colMap.isEmpty()) {
                 throw new IllegalStateException("Attempt to build a record with no values");
             }
@@ -344,11 +345,21 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                     }
                 }
             }
+
             if (this.totalTime != null && this.totalTime.getType() != Component.Type.TOTALTIME) {
                 throw new IllegalStateException(this.totalTime.toString() +  " has wrong display type");
             }
             if (this.zoneTime != null && this.zoneTime.getType() != Component.Type.INZONE) {
                 throw new IllegalStateException(this.zoneTime.toString() +  " has wrong display type");
+            }
+
+            // See if we extracted a clockTime during parsing
+            if (this.totalTime != null && this.start != null) {
+                TimerExp total = (TimerExp)this.totalTime;
+                StartExp start = (StartExp)this.start;
+                if (total.hasClockTime()) {
+                    start.setValue(total.getClockTime());
+                }
             }
 
             if (this.calories != null && this.max != null ) {

@@ -12,6 +12,8 @@ public class TimerExp extends Component {
     private Integer seconds = 0;
 
     private DistanceExp delegate = new DistanceExp();
+    private String clockTime;
+
     private String text;
     private Double decMinutes;
 
@@ -20,6 +22,14 @@ public class TimerExp extends Component {
 
     public boolean hasInZone() {
         return this.hasInZone;
+    }
+
+    public boolean hasClockTime() {
+        return this.clockTime != null;
+    }
+
+    public String getClockTime() {
+        return this.clockTime;
     }
 
     private static Integer getInteger(String sec) {
@@ -79,9 +89,15 @@ public class TimerExp extends Component {
         } catch (ParseException ex) {
             logger.debug("Text is not a DistanceExp: Continuing");
         }
-        if (text.contains("am") || text.contains("AM") || text.contains("pm") || text.contains("PM")) {
-            if (text.contains("at") == false) {
+        if (text.toUpperCase().contains("AM") || text.toUpperCase().contains("PM")) {
+            if (text.toUpperCase().contains("AT") == false) {
                 throw new ParseException("Unparseable TimerExp: \"" + text + "\" contains only AM or PM");
+            }
+            // Try to extract clockTime String from the remaining text
+            if (text.length() > 2) {
+                int start = text.toUpperCase().lastIndexOf("AT") + 2;
+                String candidate = text.substring(start).trim();
+                this.clockTime = firstIn(candidate, TIME_PATTERN);
             }
         }
         if (delegate.toString().isEmpty() == false) {
