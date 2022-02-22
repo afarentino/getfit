@@ -40,7 +40,7 @@ record entries that cannot be parsed.
 
 ### Usage
 ``` getfit --inFile fileName```
-java --jar --Pargs --fileName
+
 ### CSV Output
 
 The output CSV file will be generated to the same directory
@@ -52,3 +52,6 @@ It conforms to the CSV Format standardization rules found in [RFC-4180](https://
 Download the source code of this project and follow the
 documentation over
 in the [HELP.md](HELP.md) file.
+
+### License
+* [MIT License](LICENSE.txt)
