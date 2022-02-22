@@ -362,6 +362,16 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
                 }
             }
 
+            // If only one number is recorded its calories burned.
+            if (this.calories == null && this.max != null && this.avg == null) {
+                try {
+                    calories(this.max.getValue());
+                    this.max = null;
+                } catch (ParseException ex) {
+                    throw new IllegalStateException(ex);
+                }
+            }
+
             if (this.calories != null && this.max != null ) {
                 Integer calories = Integer.parseInt(this.calories.getValue());
                 Integer max = Integer.parseInt(this.max.getValue());

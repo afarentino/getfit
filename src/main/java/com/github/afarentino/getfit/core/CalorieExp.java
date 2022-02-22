@@ -1,7 +1,6 @@
 package com.github.afarentino.getfit.core;
 
 public class CalorieExp extends Component {
-    private static final int CALORIE_THRESHOLD = 168;  // TODO: Remove these in a future release
     private static final int CALORIE_MAX = 2000;
     HeartRateExp delegate = new HeartRateExp();
 
