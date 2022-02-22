@@ -264,6 +264,14 @@ public record ExerciseRecord( Component start, // start datetime (time is nullab
         }
 
         public Builder buildNext(String text) throws ParseException {
+            String clockTime = Component.firstIn(text.trim(), Component.TIME_PATTERN);
+            // If this is a line with only a clockTime add it (if needed) to the pre-existing StartExp
+            if (this.start != null && clockTime != null) {
+                StartExp start = (StartExp)this.start;
+                start.setValue(clockTime);
+                return this;
+            }
+
             // Select the next Component type to try and build
             Component.Type t = parseStack.isEmpty() ? Component.Type.NOTE : parseStack.pop();
 
