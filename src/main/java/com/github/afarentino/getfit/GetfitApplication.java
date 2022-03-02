@@ -36,13 +36,17 @@ public class GetfitApplication implements ApplicationRunner {
 			}
 			return values.get(0);
 		}
-		throw new IllegalArgumentException("Error input file required: Specify a file to use using an --inFile= argument");
+		logger.error("Input file required: Specify a file to use using an --inFile= argument");
+		return null;
 	}
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		String fileName = getFileName(args);
-        // Construct our TextFileService
+        if (fileName == null) {
+			return;
+		}
+		// Construct our TextFileService
 		this.fileService = new TextFileService(fileName);
 		// Convert to a CSV file
 		File csv = fileService.convertToCSV();
@@ -56,6 +60,11 @@ public class GetfitApplication implements ApplicationRunner {
 	// Runs last
 	public static void main(String[] args) {
 		logger.info("Before Spring App run");
+		Thread.currentThread().setUncaughtExceptionHandler( new Thread.UncaughtExceptionHandler() {
+			public void uncaughtException(Thread t, Throwable e) {
+				logger.error(t + "throws exception: " + e);
+			}
+		});
 		SpringApplication.run(GetfitApplication.class, args);
 	}
 
